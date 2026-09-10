@@ -105,7 +105,3 @@ flowchart TD
 - **GitHub vs GitLab**: “GitHub = collaboration; GitLab = full DevOps lifecycle.”
 - **Docker vs VM**: “VMs emulate hardware; Docker containers share OS kernel → lightweight.”
 - **Kubernetes vs Docker**: “Docker = containerization; Kubernetes = orchestration of containers.”
-
-👉 This version is **ready to upload directly to your GitHub repo**. The diagrams will render automatically when viewed in GitHub.  
-
-Would you like me to also add a **section with common commands** (like `docker run`, `kubectl get pods`, `git commit`) so you have a quick reference cheat sheet inside the same README?
