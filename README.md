@@ -1,4 +1,4 @@
-# 📘 DevOps & Cloud Engineering Notes (Concise + Architecture)
+# 📘 DevOps & Cloud Engineering Notes (Complete Guide)
 
 ## 1. DevOps
 **Definition**: DevOps is a culture and practice that integrates software development and IT operations. It emphasizes automation, CI/CD, collaboration, and monitoring to deliver applications faster and more reliably.
@@ -29,6 +29,9 @@ flowchart TD
     E --> F[Hardware]
 ```
 
+### 🔑 Common Commands
+- `ls`, `pwd`, `cd`, `chmod`, `ps`, `grep`, `tar -xvf`
+
 ---
 
 ## 3. AWS (Amazon Web Services)
@@ -37,12 +40,33 @@ flowchart TD
 ### ☁️ AWS Service Categories
 ```mermaid
 graph TD
-    A[AWS] --> B[Compute - EC2/Lambda]
-    A --> C[Storage - S3/EBS]
-    A --> D[Databases - RDS/DynamoDB]
-    A --> E[Networking - VPC/Route53]
-    A --> F[DevOps Tools - CodePipeline]
+    A[AWS] --> B[Compute - EC2/Lambda/EKS/ECS]
+    A --> C[Storage - S3/EBS/EFS/Glacier]
+    A --> D[Databases - RDS/Aurora/DynamoDB/Redshift]
+    A --> E[Networking - VPC/Route53/CloudFront/ELB]
+    A --> F[Security - IAM/KMS/Shield/WAF]
+    A --> G[DevOps Tools - CodePipeline/CloudFormation]
+    A --> H[Monitoring - CloudWatch/X-Ray]
 ```
+
+### 🔑 Important AWS Services
+- **Compute**: EC2, Lambda, ECS, EKS, Fargate, Auto Scaling  
+- **Storage**: S3, EBS, EFS, Glacier, Snowball, Storage Gateway  
+- **Databases**: RDS, Aurora, DynamoDB, Redshift, ElastiCache, Neptune  
+- **Networking**: VPC, Route 53, CloudFront, ELB  
+- **Security**: IAM, Cognito, KMS, Shield, WAF, GuardDuty, Inspector  
+- **DevOps Tools**: CloudFormation, CodePipeline, CodeBuild, CodeDeploy, Elastic Beanstalk  
+- **Monitoring**: CloudWatch, X‑Ray, Systems Manager  
+- **Analytics/AI**: Athena, Glue, QuickSight, SageMaker, Rekognition, Lex  
+
+### 🔑 Key Terminology
+- **Region** → Geographic area (e.g., ap‑south‑1 = Mumbai)  
+- **Availability Zone (AZ)** → Independent data centers in a region  
+- **Elasticity** → Scale resources up/down automatically  
+- **Scalability** → Handle growing workloads  
+- **High Availability (HA)** → Minimize downtime  
+- **Fault Tolerance** → Operate despite failures  
+- **ARN (Amazon Resource Name)** → Unique identifier for AWS resources  
 
 ---
 
@@ -90,16 +114,3 @@ flowchart TD
     D --> E[Assign Pod to Node]
     E --> F[Kubelet - run container]
     F --> G[Kube-proxy - networking]
-```
-
----
-
-## 8. Interview Quick Prep
-- DevOps → “Culture + practices for faster delivery and reliability.”
-- Linux → “Open‑source OS, stable and secure, widely used in servers.”
-- AWS → “Cloud platform with 200+ services for scalable infrastructure.”
-- Git → “Distributed version control system storing snapshots.”
-- GitHub vs GitLab → “GitHub = collaboration; GitLab = full DevOps lifecycle.”
-- Docker → “Lightweight containers for consistent app deployment.”
-- Kubernetes → “Orchestrates and manages containers across clusters.”
-```
