@@ -103,6 +103,17 @@ graph TD
 * **Dockerfiles & Multi-Stage Builds:** Text documents containing sequential commands to assemble a Docker image. Multi-stage builds separate heavy compilation environments from lean runtime environments to minimize image size and security footprints.
 * **Docker Compose:** A tool for defining and running multi-container Docker applications using a single YAML configuration file.
 
+### Architecture Diagram: Docker Workflow
+
+```mermaid
+graph LR
+    A[Dockerfile] -->|docker build| B[Docker Image]
+    B -->|push / pull| C[(DockerHub / ECR)]
+    C -->|docker run| D[Running Container]
+    D -->|mounts| E[(Docker Volumes)]
+
+```
+
 ---
 
 ## 5. Container Orchestration (Kubernetes)
@@ -116,6 +127,24 @@ graph TD
 * **Horizontal Pod Autoscaler (HPA):** Automatically scales the number of pod replicas up or down based on observed CPU utilization or custom metrics.
 * **Ingress & Load Balancing:** Managing external access to services inside a cluster via HTTP/HTTPS routing rules and entry point controllers.
 * **Three-Tier Application Deployment:** Orchestrating a complete architecture composed of a Frontend layer, Backend API layer, and Database layer running inside Kubernetes pods.
+
+### Architecture Diagram: Kubernetes Cluster Structure
+
+```mermaid
+graph TD
+    subgraph Kubernetes Control Plane
+        A[kube-apiserver] --> B[etcd Database]
+        A --> C[kube-scheduler]
+        A --> D[Controller Manager]
+    end
+    
+    subgraph Worker Nodes
+        A -->|manages| E[Kubelet]
+        E --> F[Pods / Containers]
+        G[kube-proxy] --> F
+    end
+
+```
 
 ---
 
@@ -140,7 +169,7 @@ graph TD
 * **Declarative Jenkins Pipelines:** Describing continuous delivery pipelines using a structured Groovy-based syntax inside a `Jenkinsfile`.
 * **Artifact Storage & Three-Tier Deployment:** Archiving compiled build artifacts (like `.jar` or `.war` files) and orchestrating end-to-end automated deployments of a multi-tier app directly onto an EKS cluster.
 
-### Pipeline Flow Diagram
+### Architecture Diagram: CI/CD Pipeline Flow
 
 ```mermaid
 graph LR
