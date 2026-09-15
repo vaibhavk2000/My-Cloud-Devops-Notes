@@ -74,6 +74,24 @@ Comprehensive, production-ready engineering notes, architectures, and deep-dive 
 * **AWS CLI:** Command-line tool used to script, automate, and manage AWS resources directly from your terminal.
 * **Amazon CloudWatch:** Monitoring service tracking metrics, logs, visual dashboards, and custom alarms integrated with **SNS (Simple Notification Service)** for instant email/SMS alerts.
 
+### Architecture Diagram: 3-Tier AWS Network Layout
+```mermaid
+graph TD
+    User --> ALB[Application Load Balancer]
+    subgraph AWS VPC
+        subgraph Public Subnet
+            ALB --> Web[EC2 Web Servers]
+        end
+        subgraph Private Subnet
+            Web --> App[Backend Apps / EKS]
+        end
+        subgraph Database Subnet
+            App --> DB[(Amazon RDS Database)]
+        end
+    end
+
+```
+
 ---
 
 ## 4. Containerization (Docker)
@@ -122,9 +140,25 @@ Comprehensive, production-ready engineering notes, architectures, and deep-dive 
 * **Declarative Jenkins Pipelines:** Describing continuous delivery pipelines using a structured Groovy-based syntax inside a `Jenkinsfile`.
 * **Artifact Storage & Three-Tier Deployment:** Archiving compiled build artifacts (like `.jar` or `.war` files) and orchestrating end-to-end automated deployments of a multi-tier app directly onto an EKS cluster.
 
+### Pipeline Flow Diagram
+
+```mermaid
+graph LR
+    A[Git Push] --> B[Jenkins Controller]
+    B --> C[Maven Build]
+    C --> D[SonarQube Scan]
+    D --> E[Docker Build & Push]
+    E --> F[Deploy to EKS]
+
+```
+
 ---
 
 ## 8. Observability & Monitoring (Datadog)
 
 * **Infrastructure & App Monitoring:** Integrating agent-based data collection to gather metrics, distributed traces, and log files from cloud servers, containers, and application runtimes.
 * **Alerting & Dashboards:** Building real-time graphical visibility dashboards and setting up alerting monitors to catch production issues proactively.
+
+```
+
+```
