@@ -95,13 +95,43 @@
 * **Amazon Lex:** Amazon Lex is a fully managed artificial intelligence service for building conversational interfaces into any application using voice and text. It brings deep learning functionalities of natural language understanding and automatic speech recognition to build engaging chatbots.
 
 ## 🔑 Key Terminology
-- **Region** → Geographic area (e.g., ap-south-1 = Mumbai)
-- **Availability Zone (AZ)** → Independent data centers in a region
-- **Elasticity** → Scale resources up/down automatically
-- **Scalability** → Handle growing workloads
-- **High Availability (HA)** → Minimize downtime
-- **Fault Tolerance** → Operate despite failures
-- **ARN (Amazon Resource Name)** → Unique identifier for AWS resources
+Virtualization allows multiple operating systems to run on a single physical machine. Cloud computing builds on this, offering services like IaaS, PaaS, and SaaS. The benefits are scalability, elasticity, and cost efficiency.
+
+EC2 is the backbone of AWS compute. You choose instance types based on workload, and AWS provides flexibility with pricing models. Launching your first EC2 instance is the starting point of your AWS journey.
+
+Linux is essential for AWS engineers. With SSH, you connect securely to EC2 and deploy web servers like Apache or Nginx. Key Linux commands such as ls, cd, and chmod are fundamental.
+
+The EC2 dashboard gives control over networking, IPs, and AMIs. Spot instances are cost‑effective but less reliable compared to On‑Demand. Security groups and key pairs ensure secure access.
+
+EBS volumes provide persistent storage. You can attach or detach volumes, and snapshots are critical for backup and disaster recovery. Following best practices ensures durability.
+
+EFS allows multiple EC2 instances to share files, ideal for distributed applications. It’s a scalable network file system that simplifies shared storage.
+
+CIDR helps define IP ranges in AWS networking. Understanding IP addressing and subnetting is key for VPC design.
+
+VPCs give you isolated networks in AWS. Subnets and route tables define traffic flow, while NAT gateways enable internet access. Security groups and NACLs add multiple layers of protection.
+
+Elastic Network Interfaces provide flexibility in networking. GuardDuty helps detect threats in real time, and firewalls enhance security posture.
+
+Load balancers distribute traffic across instances, ensuring high availability. AWS offers Application Load Balancers and Network Load Balancers, with SSL termination for secure connections.
+
+Auto Scaling adjusts resources automatically, keeping applications resilient under varying loads. Launch configurations and scaling policies ensure high availability architecture.
+
+IAM secures AWS accounts. You manage users, groups, and roles with policies. Always follow the principle of least privilege and enable multi‑factor authentication.
+
+S3 is AWS’s object storage. Buckets store objects, and multiple storage classes optimize cost. Lifecycle policies automate data management.
+
+The AWS CLI enables automation. You can script deployments and manage resources efficiently with commands for EC2, S3, and more.
+
+CloudWatch monitors AWS resources. Metrics and alarms notify you of issues, dashboards visualize performance, and logs integrate with SNS for alerts.
+
+RDS simplifies database management. It supports engines like MySQL and PostgreSQL. Backup and recovery are built‑in, and Multi‑AZ deployment ensures high availability.
+
+Route 53 manages DNS. It supports domain registration, hosted zones, and advanced routing policies for global applications.
+
+CloudFront accelerates content delivery worldwide, reducing latency. It integrates with S3 and EC2, providing caching and security features.
+
+Lambda runs code without servers. It’s event‑driven and integrates seamlessly with services like S3, DynamoDB, and API Gateway. Use cases include automation, microservices, and real‑time data processing.
 
 ---
 
