@@ -58,17 +58,17 @@ graph TD
 
 * **IaaS (Infrastructure as a Service):**
 Provides basic computing resources such as virtual machines, storage, networks, and firewalls. You manage the OS, runtime, data, and applications.
-* **Examples:** AWS EC2, Google Compute Engine (GCE), Microsoft Azure VMs.
+  **Examples:** AWS EC2, Google Compute Engine (GCE), Microsoft Azure VMs.
 
 
 * **PaaS (Platform as a Service):**
 Provides a runtime environment and framework for developers to build, deploy, and manage applications without worrying about underlying servers, OS, or infrastructure maintenance.
-* **Examples:** AWS Elastic Beanstalk, Google App Engine, Heroku.
+  **Examples:** AWS Elastic Beanstalk, Google App Engine, Heroku.
 
 
 * **SaaS (Software as a Service):**
 Delivers complete, fully managed software applications over the internet accessible via web browsers or APIs.
-* **Examples:** Google Workspace, Microsoft 365, Salesforce, Dropbox.
+  **Examples:** Google Workspace, Microsoft 365, Salesforce, Dropbox.
 
 
 
