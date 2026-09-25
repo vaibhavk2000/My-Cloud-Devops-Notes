@@ -45,3 +45,28 @@ graph TD
     style T2_Hyp fill:#2980b9,stroke:#333,stroke-width:2px,color:#fff
     style T2_VM1 fill:#27ae60,stroke:#333,stroke-width:1px,color:#fff
     style T2_VM2 fill:#27ae60,stroke:#333,stroke-width:1px,color:#fff
+
+# Types of Cloud Models
+
+## 1. Cloud Service Models
+
+* **IaaS (Infrastructure as a Service):** 
+  Provides basic computing resources such as virtual machines, storage, networks, and firewalls. You manage the OS, runtime, data, and applications.
+  * **Examples:** AWS EC2, Google Compute Engine (GCE), Microsoft Azure VMs.
+
+* **PaaS (Platform as a Service):** 
+  Provides a runtime environment and framework for developers to build, deploy, and manage applications without worrying about underlying servers, OS, or infrastructure maintenance.
+  * **Examples:** AWS Elastic Beanstalk, Google App Engine, Heroku.
+
+* **SaaS (Software as a Service):** 
+  Delivers complete, fully managed software applications over the internet accessible via web browsers or APIs.
+  * **Examples:** Google Workspace, Microsoft 365, Salesforce, Dropbox.
+
+---
+
+## 2. Cloud Deployment Models
+
+* **Public Cloud:** Owned and operated by third-party cloud service providers, sharing resources across multiple clients over the public internet (e.g., AWS, GCP, Azure).
+* **Private Cloud:** Cloud infrastructure dedicated exclusively to a single organization, hosted either on-premises or by a third party.
+* **Hybrid Cloud:** Combines public and private clouds, allowing data and applications to be shared between them for greater flexibility and security.
+* **Multi-Cloud:** Uses services from multiple public cloud providers (e.g., AWS + GCP) to avoid vendor lock-in and optimize performance.
