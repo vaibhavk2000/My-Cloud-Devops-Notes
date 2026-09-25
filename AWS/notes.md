@@ -1,6 +1,6 @@
 # What is Virtualization?
 
-Virtualization is the process of creating a virtual version of physical hardware, such as servers, storage devices, or networks.
+Virtualization is the process of creating a virtual version of physical hardware, such as servers, storage devices, or networks.also it allow to run multiple virtual machine on a single physical machine.
 
 # Types of Virtualization?
 
