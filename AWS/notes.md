@@ -3,6 +3,17 @@
 Virtualization is the process of creating a virtual version of physical hardware, such as servers, storage devices, or networks.also it allow to run multiple virtual machine on a single physical machine.
 
 # Types of Virtualization?
+Server Virtualization: abstracts physical server hardware (CPU, RAM, storage) into multiple independent virtual machines (VMs), allowing multiple operating systems to run on a single physical host.
+
+OS-Level Virtualization (Containerization): shares the host OS kernel to run isolated user-space instances (e.g., Docker, LXC). It is much lighter and faster than traditional full-hardware virtualization.
+
+Network Virtualization: decouples network management from physical hardware. Creates virtual switches, routers, firewalls, and VPNs (e.g., VMware NSX, AWS VPC).
+
+Storage Virtualization: pools physical storage from multiple network storage devices into what appears to be a single storage unit (e.g., SAN/NAS virtualization, Software-Defined Storage like Ceph).
+
+Desktop Virtualization (VDI): hosts desktop environments on a centralized server, allowing users to access their virtual desktops remotely (e.g., Citrix Virtual Desktops, VMware Horizon).
+
+# Types of Hypervisor
 
 ```mermaid
 graph TD
