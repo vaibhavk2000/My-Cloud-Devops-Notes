@@ -163,22 +163,89 @@ chmod +x terraform-install.sh
 
 
 ```
-### Terraform file that creates an EC2 instance on AWS
+
+To install the **AWS CLI v2** on your Ubuntu instance, run the following commands in your terminal:
+
+```bash
+# 1. Download the AWS CLI v2 installation zip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+# 2. Unzip the installer package
+unzip awscliv2.zip
+
+# 3. Run the installer
+sudo ./aws/install
+
+```
+
+Once installed, verify it by checking the version:
+
+```bash
+aws --version
+
+```
+You have a minor typo in your command (`configue` instead of `configure`).
+
+Type **`Ctrl + C`** in your terminal to clear the line, then run:
+
+```bash
+aws configure
+
+```
+
+It will prompt you to enter the following details:
+
+1. **AWS Access Key ID:** Your access key
+2. **AWS Secret Access Key:** Your secret key
+3. **Default region name:** `ap-south-1` *(or your preferred region)*
+4. **Default output format:** `json`
+
+Here is the Terraform configuration file to create your EC2 instance.
+
+### 1. Create a `main.tf` file
+
+You are currently inside the `nano` text editor in your terminal screen. Paste the following configuration into it:
+
 ```hcl
-# Define the AWS provider
 provider "aws" {
-  region = "us-east-1"   
+  region = "ap-south-1"
 }
 
-# Create an EC2 instance
-resource "aws_instance" "my_ec2" {
-  ami           = "ami-0c55b159cbfafe1f0" 
-  instance_type = "t2.micro"              
+resource "aws_instance" "terraform_demo" {
+  ami           = "ami-01a00762f46d584a1"
+  instance_type = "t3.micro"
 
   tags = {
-    Name = "MyFirstEC2"
+    Name = "terrfom demo server"
   }
 }
+
+```
+
+---
+
+### 2. Save and exit Nano
+
+* Press **`Ctrl + O`**, then hit **`Enter`** to save the file.
+* Press **`Ctrl + X`** to exit `nano`.
+
+---
+
+### 3. Deploy the instance
+
+Run these commands in your terminal to initialize and create the EC2 instance:
+
+```bash
+# Initialize Terraform and download AWS provider plugins
+terraform init
+
+# Review the execution plan
+terraform plan
+
+# Create the EC2 instance
+terraform apply -auto-approve
+
+```
 
 ```
 Terraform Script to Deploy Security Group with HEREDOC in UserData
