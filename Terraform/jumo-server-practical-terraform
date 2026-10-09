@@ -1,0 +1,360 @@
+Step 1
+provider "aws" {
+  region = var.region
+}
+
+# VPC
+resource "aws_vpc" "main" {
+  cidr_block = var.vpc_cidr
+
+  tags = {
+    Name = "main-vpc"
+  }
+}
+
+# Public Subnet
+resource "aws_subnet" "public" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_cidr
+  map_public_ip_on_launch = true
+  availability_zone       = var.az1
+
+  tags = {
+    Name = "public-subnet"
+  }
+}
+
+# Private Subnet
+resource "aws_subnet" "private" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_cidr
+  availability_zone = var.az2
+
+  tags = {
+    Name = "private-subnet"
+  }
+}
+
+# Internet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main-igw"
+  }
+}
+
+# NAT Gateway
+resource "aws_eip" "nat" {
+  tags = {
+    Name = "nat-eip"
+  }
+}
+
+resource "aws_nat_gateway" "natgw" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public.id
+
+  tags = {
+    Name = "main-natgw"
+  }
+}
+
+# Route Tables
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+
+  tags = {
+    Name = "public-rt"
+  }
+}
+
+resource "aws_route_table_association" "public_assoc" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+resource "aws_route_table" "private_rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.natgw.id
+  }
+
+  tags = {
+    Name = "private-rt"
+  }
+}
+
+resource "aws_route_table_association" "private_assoc" {
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.private_rt.id
+}
+
+# Security Groups
+resource "aws_security_group" "public_sg" {
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "public-sg"
+  }
+}
+
+resource "aws_security_group" "private_sg" {
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.public.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "private-sg"
+  }
+}
+
+# EC2 Instances
+resource "aws_instance" "public_ec2" {
+  ami             = var.ec2_ami
+  instance_type   = var.ec2_type
+  subnet_id       = aws_subnet.public.id
+  security_groups = [aws_security_group.public_sg.id]
+  key_name        = var.key_name
+
+  tags = {
+    Name = "public-ec2"
+  }
+}
+
+resource "aws_instance" "private_ec2" {
+  ami             = var.ec2_ami
+  instance_type   = var.ec2_type
+  subnet_id       = aws_subnet.private.id
+  security_groups = [aws_security_group.private_sg.id]
+  key_name        = var.key_name
+
+  tags = {
+    Name = "private-ec2"
+  }
+}
+
+--
+outputs.tf 
+output "vpc_id" {
+  value = aws_vpc.main.id
+}
+
+output "public_subnet_id" {
+  value = aws_subnet.public.id
+}
+
+output "private_subnet_id" {
+  value = aws_subnet.private.id
+}
+
+output "public_ec2_public_ip" {
+  value = aws_instance.public_ec2.public_ip
+}
+
+output "private_ec2_private_ip" {
+  value = aws_instance.private_ec2.private_ip
+}
+----
+variables.tf
+variable "region" {
+  type = string
+}
+
+variable "vpc_cidr" {
+  type = string
+}
+
+variable "public_subnet_cidr" {
+  type = string
+}
+
+variable "private_subnet_cidr" {
+  type = string
+}
+
+variable "az1" {
+  type = string
+}
+
+variable "az2" {
+  type = string
+}
+
+variable "ec2_ami" {
+  type = string
+}
+
+variable "ec2_type" {
+  type    = string
+  default = "t3.micro"
+}
+
+variable "key_name" {
+  type = string
+}
+-----
+s3.tf
+# S3 Bucket for Terraform Remote State with Object Lock
+resource "aws_s3_bucket" "terraform_state" {
+  bucket        = "vaibhav-tf-state-ap-south-1-2026" # Globally unique bucket name
+  force_destroy = false
+
+  object_lock_enabled = true
+
+  tags = {
+    Name = "terraform-state-storage"
+  }
+}
+
+# Enable Versioning (Required for S3 State Storage & Object Lock)
+resource "aws_s3_bucket_versioning" "terraform_state_versioning" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# Enable Server-Side Encryption
+resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_crypto" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# Explicitly Block All Public Access
+resource "aws_s3_bucket_public_access_block" "terraform_state_block_public" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+# Configure Default Retention Rule for Object Lock
+resource "aws_s3_bucket_object_lock_configuration" "state_lock_config" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  rule {
+    default_retention {
+      mode = "GOVERNANCE"
+      days = 30
+    }
+  }
+}
+
+# DynamoDB Table for State Locking
+resource "aws_dynamodb_table" "terraform_locks" {
+  name         = "terraform-state-locks"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+
+  tags = {
+    Name = "terraform-state-locks"
+  }
+}
+-----
+terraform.tfvars 
+region              = "ap-south-1"
+vpc_cidr            = "10.0.0.0/16"
+public_subnet_cidr  = "10.0.1.0/24"
+private_subnet_cidr = "10.0.2.0/24"
+az1                 = "ap-south-1a"
+az2                 = "ap-south-1b"
+
+ec2_ami   = "ami-01a00762f46d584a1" 
+ec2_type  = "t3.micro"
+key_name  = "my-keypair"
+
+variables.tf 
+variable "region" {
+  type = string
+}
+
+variable "vpc_cidr" {
+  type = string
+}
+
+variable "public_subnet_cidr" {
+  type = string
+}
+
+variable "private_subnet_cidr" {
+  type = string
+}
+
+variable "az1" {
+  type = string
+}
+
+variable "az2" {
+  type = string
+}
+
+variable "ec2_ami" {
+  type = string
+}
+
+variable "ec2_type" {
+  type    = string
+  default = "t3.micro"
+}
+
+variable "key_name" {
+  type = string
+}
+----
+backend.tf.bak 
+terraform {
+  backend "s3" {
+    bucket       = "vaibhav-tf-state-ap-south-1-2026"
+    key          = "global/s3/terraform.tfstate"
+    region       = "ap-south-1"
+    use_lockfile = true
+    encrypt      = true
+  }
+}
