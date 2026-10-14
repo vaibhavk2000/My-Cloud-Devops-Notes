@@ -1,45 +1,36 @@
-## Jenkins Notes
+# Jenkins Notes
 
+## 1. Core Definition
+* **What it is:** The leading open-source automation server written in Java.
+* **Primary Function:** Implements Continuous Integration (CI) and Continuous Delivery/Deployment (CD) workflows.
+* **Main Goal:** Automates building, testing, and deploying code to reduce manual errors and accelerate release cycles.
 
-1. Core Definition
-
-• What it is: The leading open-source automation server written in Java.
-• Primary Function: Implements Continuous Integration (CI) and Continuous Delivery/Deployment (CD) workflows.
-• Main Goal: Automates building, testing, and deploying code to reduce manual errors and accelerate release cycles.
-
-2. Architecture
-
+## 2. Architecture
 Jenkins uses a distributed Controller-Agent model to scale workloads:
-• Controller: The central hub. It manages the Web UI, stores configurations, handles security, and orchestrates job scheduling.
-• Agents: The workers. Executable units that receive instructions from the controller to compile code, run tests, and execute scripts. Can be static VMs or dynamic Docker/Kubernetes containers.
+* **Controller:** The central hub. It manages the Web UI, stores configurations, handles security, and orchestrates job scheduling.
+* **Agents:** The workers. Executable units that receive instructions from the controller to compile code, run tests, and execute scripts. Can be static VMs or dynamic Docker/Kubernetes containers.
 
-3. Key Concepts & Components
+## 3. Key Concepts & Components
+* **Job / Project:** A runnable task controlled by Jenkins (e.g., building a specific app).
+* **Pipeline:** A user-defined model of a CD pipeline. It defines the entire build process (typically containing stages like Build, Test, and Deploy).
+* **Jenkinsfile:** A text file that contains the definition of a Jenkins Pipeline and is checked into source control (Git). This is Pipeline as Code.
+* **Plugins:** Modular extensions. Jenkins features over 2,300 plugins to integrate with tools like GitHub, AWS, Docker, Slack, and Kubernetes.
 
-• Job / Project: A runnable task controlled by Jenkins (e.g., building a specific app).
-• Pipeline: A user-defined model of a CD pipeline. It defines the entire build process (typically containing stages like Build, Test, and Deploy).
-• Jenkinsfile: A text file that contains the definition of a Jenkins Pipeline and is checked into source control (Git). This is Pipeline as Code.
-• Plugins: Modular extensions. Jenkins features over 2,300 plugins to integrate with tools like GitHub, AWS, Docker, Slack, and Kubernetes.
+## 4. Types of Pipeline Syntax
+* **Declarative Pipeline:** Simplest, structured, and strictly controlled format. Best practice for most modern setups.
+* **Scripted Pipeline:** Follows an imperative syntax utilizing Groovy code. Highly flexible but harder to write and maintain.
 
-4. Types of Pipeline Syntax
-
-• Declarative Pipeline: Simplest, structured, and strictly controlled format. Best practice for most modern setups.
-• Scripted Pipeline: Follows an imperative syntax utilizing Groovy code. Highly flexible but harder to write and maintain.
-
-5. Standard CI/CD Workflow
-
-text
-[Developer] ──> Pushes Code ──> [Git/GitHub] 
-                                      │ (Webhook Trigger)
-                                      ▼
+## 5. Standard CI/CD Workflow
+```text
+[Developer] ──> Pushes Code ──> [Git/GitHub]
+                              │ (Webhook Trigger)
+                              ▼
 [Production] <── Deploy <── Test <── [Jenkins Server]
-Use code with caution.
 
-6. Quick Code Example: Declarative Jenkinsfile
-
-groovy
+## 6. Quick Code Example: Declarative Jenkinsfile
+---
 pipeline {
     agent any // Run on any available agent
-
     stages {
         stage('Build') {
             steps {
@@ -60,4 +51,4 @@ pipeline {
         }
     }
 }
-
+---
