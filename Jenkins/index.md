@@ -27,8 +27,11 @@ Jenkins uses a distributed Controller-Agent model to scale workloads:
                               ▼
 [Production] <── Deploy <── Test <── [Jenkins Server]
 
+```
+
 ## 6. Quick Code Example: Declarative Jenkinsfile
----
+
+```groovy
 pipeline {
     agent any // Run on any available agent
     stages {
@@ -51,4 +54,9 @@ pipeline {
         }
     }
 }
----
+
+```
+
+```
+
+```
