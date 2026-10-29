@@ -489,3 +489,364 @@ Inspect the file's ownership and permissions, along with execute permissions on 
 
 15\. How do you troubleshoot high CPU usage?Use top or ps to identify processes consuming CPU, then examine their logs and workload before taking corrective action.
 
+----
+
+# AWS Notes for DevOps Interviews and Practical Projects
+
+These notes cover AWS fundamentals, important services, practical commands, Jenkins integration, and common interview questions. They are designed for revision and hands-on preparation.
+
+## 1. What is AWS?
+
+AWS (Amazon Web Services) is a cloud computing platform that provides on-demand services such as servers, storage, databases, networking, security, and monitoring.
+
+Instead of purchasing physical servers, you can launch virtual servers, store files, host applications, and manage databases over the internet.
+
+Interview answer: “AWS is a cloud platform that provides scalable, secure, and on-demand IT resources. In DevOps, we use AWS to host applications, automate deployments, manage databases and storage, and monitor infrastructure.”
+
+## 2. Important AWS services
+
+[Icon AWS to EC2 Service | Free SVG](https://images.openai.com/static-rsc-4/HP4rSceyP5-tzH7DCxzlWC6Pa8km-RSqNN5paDGvQ-lZ7LRHknP_WmDTLVu85tFg3wdQYjuL2wSPYsDSHvzdhdv6-CZG_tzRoZyxnbbdxbhzv0n_1-UBJYJc975SbKXyviIE_bs3vqFKgMqKB3C8GhGMztpuSFxp5XdpkKu3ymY?purpose=inline)
+
+Amazon EC2 — Virtual servers
+
+Launch Linux or Windows servers to host applications, Jenkins, Docker containers, and web servers.
+
+Example: Run Jenkins on one EC2 instance and deploy your Spring Boot application to another.
+
+[Amazon S3 monitoring & observability | Dynatrace Hub](https://images.openai.com/static-rsc-4/VlRJOCPLELSpJ3rtJaSuyp83dcy4sXvgplJhMmu3qKno1hxB3VDp91vvnY-C8hHE4x0v6GBO8toZJYyZJ-VgN2cS1mLnNb_yatWok2LyQtkN9t64dY2ailARVeVyNLrWzsG0udQnfRsmpcmvxtSsWEXwAzIUEMATxgaCJmpr_MQ?purpose=inline)
+
+Amazon S3 — Object storage
+
+Store images, documents, backups, logs, and static website files in buckets.
+
+Example: Store student application uploads in an S3 bucket.
+
+[Database | Devops Spundan](https://images.openai.com/static-rsc-4/ru_fUoYKe5y96DQz8X0V5GjPhnrc7rLmZmcj6WmnRgdqnWDTf4mDqUmGJek2fWOfZ1Dm-9NUqhQlbs9z_2YTOexDMeD00B3YHYp4Ym604_iZyXnaun-mkiTUS7Buw_TVixA0MqBnVypjHZ3EZdzUTBqsuqtmRUT4xuWtDYPl-oA?purpose=inline)
+
+Amazon RDS — Managed databases
+
+Run relational databases such as MySQL, PostgreSQL, and other supported database engines without managing the underlying database server hardware.
+
+Example: Connect a Spring Boot backend running on EC2 to a PostgreSQL RDS database.
+
+[Set up a Virtual Private Cloud with AWS VPC](https://images.openai.com/static-rsc-4/bBcn9Bu2wAX-ReJwP9vTSwYXLQdVPk1u5IWJ3I5i5EXHg1yJfOaC-elavYGv6URRscb0GTrryl3yoStHlent455xJiih_rOuDUpzmnalYa-6w3UkiTVwzLfR5IRhCgAhe1mckh9fZDPVrbbwNiFPU0NKlU3n4zIe6IFU2OblgMw?purpose=inline)
+
+Amazon VPC — Networking
+
+Create an isolated virtual network with subnets, route tables, IP ranges, and network security controls.
+
+[Optimize AWS IAM Security & Access Control](https://images.openai.com/static-rsc-4/qaN4N-TFV3Ndu3ffwH_2f93--anKdGJEEuuvUbFVDQtlYeAuLsh91gCyb0R5L4DDFz_tMATrSTmRoXybw4fpaqbja9TgeZOtki7J6bfvz4-QdKEKoLZ9poZZf1zpfTo8v3Dd-ASeTczYVnMORqL4yqhhDBl2K1Wq8CFOH8GOATI?purpose=inline)
+
+AWS IAM — Identity and access management
+
+Manage users, roles, policies, and permissions. Follow least privilege: give each identity only the access it needs.
+
+[Amazon CloudWatchとは？機能や特徴・製品の概要まとめ](https://images.openai.com/static-rsc-4/riPShc1DOTdBztTDFN9nJNoD1ZOuRXn6MqpaxbnVFxE4YsjPnDkWK7x5ZTwLmAwQqdYb014V5gXMKvF2AapRCum0-acwoZGmN868EaZB5bCKRIqCdyBpS0waqn_VG0DCgB4xsHVVLGkgP2Y1QP9uLV9Sh8YpbhxVCiu0M_3LNag?purpose=inline)
+
+Amazon CloudWatch — Monitoring
+
+Collect metrics and logs, create dashboards, and configure alarms for supported AWS resources and applications.
+
+Other important services:
+
+| Service         | Purpose                                                         |
+| --------------- | --------------------------------------------------------------- |
+| EBS             | Persistent block storage for EC2                                |
+| ELB / ALB       | Distribute incoming traffic across targets                      |
+| Auto Scaling    | Adjust the number of EC2 instances based on configured policies |
+| Route 53        | DNS and domain routing                                          |
+| ECR             | Store Docker container images                                   |
+| ECS             | Run and manage containers                                       |
+| EKS             | Managed Kubernetes                                              |
+| Lambda          | Run code without managing servers                               |
+| CloudTrail      | Record AWS API activity for auditing                            |
+| Secrets Manager | Store and manage secrets                                        |
+| Systems Manager | Manage and access supported servers and AWS resources           |
+| CloudFormation  | Provision AWS infrastructure using templates                    |
+
+## 3. AWS global infrastructure
+
+AWS Region
+
+A geographic area, such as Mumbai (`ap-south-1`)
+
+Availability Zone A
+
+Independent infrastructure location
+
+Availability Zone B
+
+Separate location for resilience
+
+- Region: A geographic area containing multiple Availability Zones.
+- Availability Zone (AZ): One or more discrete data centers with independent infrastructure.
+- Edge location: A location used by services such as CloudFront to deliver content closer to users.
+
+Interview question: Why use multiple Availability Zones?
+
+To improve availability and resilience. If an application component in one AZ fails, appropriately designed infrastructure in another AZ can continue serving traffic.
+
+## 4. Amazon EC2 — practical notes
+
+EC2 provides virtual machines in the AWS cloud.
+
+Important concepts:
+
+- AMI: Template used to launch an instance.
+- Instance type: Determines compute resources, including CPU and memory.
+- Key pair: Used for supported secure login methods, such as SSH.
+- Security group: Virtual firewall controlling inbound and outbound traffic.
+- EBS volume: Persistent block storage for an instance.
+- Elastic IP: Static public IPv4 address that can be associated with supported resources.
+- User data: Startup instructions that can run when an instance launches.
+
+### Common ports
+
+| Port | Purpose                                                      |
+| ---- | ------------------------------------------------------------ |
+| 22   | SSH                                                          |
+| 80   | HTTP                                                         |
+| 443  | HTTPS                                                        |
+| 8080 | Common application or Jenkins port; depends on configuration |
+| 3306 | MySQL                                                        |
+| 5432 | PostgreSQL                                                   |
+
+Only open the ports your application needs. For SSH, restrict access to your own IP or use a managed access method such as Systems Manager where suitable.
+
+### Connect to an EC2 Linux instance
+
+From a computer with your downloaded private key:
+
+```
+chmod 400 my-key.pem
+
+ssh -i my-key.pem ec2-user@PUBLIC_IP
+```
+
+For Ubuntu AMIs, the default username is commonly `ubuntu`; for Amazon Linux, it is commonly `ec2-user`.
+
+Replace `PUBLIC_IP` with the instance's actual public IP address. The instance must also have suitable networking and security-group rules.
+
+### Basic Linux checks on EC2
+
+```
+whoami
+hostname
+df -h
+free -m
+top
+```
+
+These commands show your current user, hostname, disk usage, memory usage, and running processes.
+
+## 5. Amazon S3 — storage notes
+
+S3 stores data as objects inside buckets.
+
+Important concepts:
+
+- Bucket: Container for objects.
+- Object: A file and its associated metadata.
+- Bucket policy: Resource-based permissions for the bucket.
+- Versioning: Maintains versions of objects.
+- Lifecycle rules: Transition or expire objects based on configured rules.
+- Encryption: Protects stored data.
+- Block Public Access: Helps prevent unintended public exposure.
+
+### AWS CLI commands
+
+First, configure an appropriate AWS identity and install AWS CLI.
+
+```
+aws sts get-caller-identity
+aws s3 ls
+aws s3 mb s3://YOUR-UNIQUE-BUCKET-NAME
+aws s3 cp report.pdf s3://YOUR-UNIQUE-BUCKET-NAME/
+aws s3 ls s3://YOUR-UNIQUE-BUCKET-NAME/
+```
+
+The bucket name must be globally unique. The commands require appropriate permissions.
+
+For an EC2 application to access S3, prefer an IAM role attached to the instance rather than saving long-lived AWS access keys on the server.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://repost.aws\&sz=32)
+
+AWS re:Post+1
+
+
+
+## 6. IAM — security and permissions
+
+IAM controls who can access AWS resources and which actions they can perform.
+
+| Component | Meaning                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------ |
+| User      | Identity generally associated with a person or application requiring long-term credentials |
+| Group     | Collection of IAM users                                                                    |
+| Role      | Identity with permissions that trusted users or services can assume                        |
+| Policy    | Document defining allowed or denied actions                                                |
+| MFA       | Additional authentication factor                                                           |
+
+Example: Your EC2 application needs to upload reports to S3. Create a role with only the necessary permissions for the required bucket and attach the role to the EC2 instance.
+
+Avoid embedding AWS access keys in GitHub repositories, Docker images, application code, or Jenkinsfiles.
+
+## 7. VPC — networking notes
+
+A VPC is a logically isolated network for your AWS resources.
+
+Internet
+
+Internet Gateway
+
+### VPC
+
+Public subnet
+
+Internet-facing load balancer or bastion host, when required
+
+Private subnet
+
+Application servers and databases, where appropriate
+
+Key terms:
+
+- Subnet: A range of IP addresses within a VPC, associated with an Availability Zone.
+- Route table: Defines where network traffic is routed.
+- Internet Gateway: Enables internet connectivity for resources with appropriate routing and public addressing.
+- NAT Gateway: Allows supported outbound internet access from private subnets without directly exposing those resources to inbound internet connections.
+- Security group: Stateful virtual firewall associated with resources such as EC2 instances.
+- Network ACL: Stateless traffic filter applied at the subnet level.
+
+Interview question: What is the difference between a security group and a network ACL?
+
+A security group is stateful and applies to associated resources. A network ACL is stateless and applies at the subnet level, so return traffic must be allowed by its rules as well.
+
+## 8. RDS — managed database
+
+Amazon RDS runs managed relational database engines such as MySQL and PostgreSQL.
+
+Advantages include managed backups, supported patching and maintenance, monitoring, and options for high availability.
+
+For a typical web application:
+
+- EC2 runs the Spring Boot backend.
+- RDS stores application records.
+- S3 stores uploaded documents and images.
+- IAM controls access to AWS services.
+
+Important: Do not expose the RDS database publicly unless there is a specific, justified requirement. Normally, permit database connections from the application's security group only.
+
+## 9. CloudWatch and CloudTrail
+
+| CloudWatch                                        | CloudTrail                                             |
+| ------------------------------------------------- | ------------------------------------------------------ |
+| Monitors metrics, logs, and alarms                | Records AWS API activity and events                    |
+| Helps diagnose performance and application issues | Helps investigate who performed an AWS action and when |
+| Example: Alert when CPU utilization stays high    | Example: Investigate who changed an EC2 security group |
+
+CloudWatch can collect metrics and logs and trigger alarms to help teams detect and investigate operational problems.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://aws.amazon.com\&sz=32)
+
+Amazon Web Services+1
+
+
+
+## 10. AWS CLI — essential commands
+
+The AWS CLI lets you manage AWS resources from a terminal.
+
+```
+# Check the active AWS identity
+aws sts get-caller-identity
+
+# Show configured CLI settings
+aws configure list
+
+# List EC2 instances in the configured Region
+aws ec2 describe-instances
+
+# List S3 buckets
+aws s3 ls
+
+# List RDS database instances
+aws rds describe-db-instances
+
+# Show the configured default Region
+aws configure get region
+```
+
+Use `--region ap-south-1` to specify Mumbai explicitly when needed. AWS CLI commands require valid credentials and sufficient permissions.
+
+For applications on EC2, prefer IAM roles over long-lived access keys. For local development, use an appropriate named profile or another supported credential method.
+
+## 11. How AWS works with DevOps tools
+
+GitHub
+
+Source code and Jenkinsfile
+
+Jenkins
+
+Build, test, package, deploy
+
+Amazon ECR
+
+Container image registry
+
+Terraform
+
+Provision infrastructure
+
+Amazon EC2 / ECS / EKS
+
+Run the deployed application
+
+Amazon RDS
+
+Database
+
+Amazon S3
+
+Object storage
+
+This is a conceptual architecture. A project does not need every service: for example, you can deploy a Dockerized Spring Boot application directly to EC2 without ECR, ECS, or EKS.
+
+### Example deployment workflow
+
+1. Developer pushes Spring Boot code to GitHub.
+2. GitHub triggers Jenkins using a webhook.
+3. Jenkins builds and tests the application.
+4. Jenkins builds a Docker image.
+5. The image is pushed to ECR, or another configured registry.
+6. Jenkins deploys the image to EC2 or an appropriate container service.
+7. The application connects to RDS and uses S3 if required.
+8. CloudWatch collects relevant logs and metrics.
+
+## 12. AWS interview questions and answers
+
+1\. What is cloud computing?Cloud computing provides on-demand access to computing resources over a network, typically with usage-based pricing.
+
+2\. What is the difference between EC2 and S3?EC2 provides virtual compute capacity. S3 provides scalable object storage for files and data.
+
+3\. What is an AMI?An Amazon Machine Image is a template used to launch EC2 instances, containing information such as the operating system and configured software.
+
+4\. What is Auto Scaling?Auto Scaling adjusts the number of resources according to configured conditions and desired capacity, helping meet demand and improve resilience.
+
+5\. What is an Elastic Load Balancer?It distributes incoming traffic across configured targets, such as EC2 instances, according to the load balancer type and configuration.
+
+6\. What is the difference between IAM user and IAM role?A user is an identity that may have long-term credentials. A role provides temporary credentials when assumed by an authorized identity or service.
+
+7\. What is a VPC?A VPC is a logically isolated virtual network where we configure IP ranges, subnets, routing, and network security.
+
+8\. What is the difference between EBS and S3?EBS provides block storage for EC2 workloads. S3 stores objects and is accessed through APIs or tools.
+
+9\. How do you secure an EC2 instance?Restrict security-group rules, use IAM roles, patch the operating system, protect credentials, use secure access methods, and monitor logs.
+
+10\. How does Jenkins access AWS?Use an IAM role where supported, or securely configured temporary or stored credentials with least-privilege permissions. Avoid hardcoding access keys.
+
+11\. What happens if an EC2 instance stops?Compute billing generally stops for a stopped instance, but attached EBS storage and other retained resources can still incur charges. Public IPv4 address behavior depends on how it is assigned.
+
+12\. What is the difference between CloudWatch and CloudTrail?CloudWatch focuses on monitoring metrics, logs, and alarms. CloudTrail records AWS API activity for auditing and investigation.
+
